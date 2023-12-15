@@ -861,3 +861,7 @@ C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\System.ServiceModel.NetTcp.d
 C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\System.ServiceModel.Primitives.dll
 C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\System.ServiceModel.dll
 C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\System.ServiceModel.Security.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\System.Management.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\Interop.SpeechLib.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\MeasureSystemFunction.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Debug\net5.0\HIS_DB_Lib.xml

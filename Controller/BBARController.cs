@@ -82,6 +82,40 @@ namespace DB2VM
             public string 午別 { get; set; }
         }
 
+        public class Order_UD_Class
+        {
+            [JsonPropertyName("CHART_NO")]         
+            public string 病歷號 { get; set; }
+            [JsonPropertyName("NET_WARD")]
+            public string 病房號 { get; set; }
+            [JsonPropertyName("NET_BED")]
+            public string 床號 { get; set; }
+            [JsonPropertyName("NET_NAME")]
+            public string 病人姓名 { get; set; }
+            [JsonPropertyName("NET_FREQCODE")]
+            public string 頻次 { get; set; }
+            [JsonPropertyName("NET_PATHWAYCODE")]
+            public string 途徑 { get; set; }
+            [JsonPropertyName("NET_CHARGE_QTY")]
+            public double 總量 { get; set; }
+            [JsonPropertyName("DRG_UNIT")]
+            public string 單位 { get; set; }
+            [JsonPropertyName("NET_PRNJOBID")]
+            public string 領藥號 { get; set; }
+            [JsonPropertyName("DRG_NAME")]
+            public string 藥品名稱 { get; set; }
+            [JsonPropertyName("NET_FEECODE")]
+            public string 藥品碼 { get; set; }
+            [JsonPropertyName("NET_BARCODE")]
+            public string 條碼 { get; set; }
+            [JsonPropertyName("NET_LOG_TIME")]
+            public string 開方時間 { get; set; }
+            [JsonPropertyName("NET_DATE")]
+            public string 開方日期 { get; set; }
+
+        }
+
+
         public class POST_Order_API
         {
             public string terminal { get; set; }
@@ -126,7 +160,7 @@ namespace DB2VM
                     returnData.Result = "barcode 空白";
                     return returnData.JsonSerializationt(true);
                 }
-                if(!((BarCode.Length == 14 || BarCode.Length == 15) || BarCode.Length == 19))
+                if(!((BarCode.Length == 14 || BarCode.Length == 15) || BarCode.Length == 19 || BarCode.Length == 12))
                 {
                     returnData.Code = -200;
                     returnData.Result = $"barcode 長度異常! [{BarCode}]";
@@ -142,7 +176,35 @@ namespace DB2VM
                 {
                     json_order = await client.QueryRtxmda_Bags_ContentAsync(BarCode);
                     order_DBVM_Classes = json_order.JsonDeserializet<List<Order_DBVM_Class>>();
-
+                }
+                if (BarCode.Length == 12)
+                {
+                    json_order = await client.MEDCABINET_DataAsync(BarCode);
+                    List<Order_UD_Class> order_DBVM_UD_Classes = json_order.JsonDeserializet<List<Order_UD_Class>>();
+                    for (int i = 0; i < order_DBVM_UD_Classes.Count; i++)
+                    {
+                        OrderClass orderClass = new OrderClass();
+                        orderClass.藥品碼 = order_DBVM_UD_Classes[i].藥品碼.Trim();
+                        orderClass.病歷號 = order_DBVM_UD_Classes[i].病歷號.Trim();
+                        orderClass.藥品名稱 = order_DBVM_UD_Classes[i].藥品名稱.Trim();
+                        if (order_DBVM_UD_Classes[i].病房號 == null) order_DBVM_UD_Classes[i].病房號 = "";
+                        if (order_DBVM_UD_Classes[i].床號 == null) order_DBVM_UD_Classes[i].床號 = "";
+                        orderClass.PRI_KEY = $"{BarCode}{orderClass.藥品碼}";
+                        orderClass.病房 = order_DBVM_UD_Classes[i].病房號.Trim();
+                        orderClass.床號 = order_DBVM_UD_Classes[i].床號.Trim();
+                        orderClass.病人姓名 = order_DBVM_UD_Classes[i].病人姓名.Trim();
+                        orderClass.頻次 = order_DBVM_UD_Classes[i].頻次.Trim();
+                        orderClass.途徑 = order_DBVM_UD_Classes[i].途徑.Trim();
+                        orderClass.交易量 = Math.Ceiling(order_DBVM_UD_Classes[i].總量 * -1).ToString();
+                        orderClass.領藥號 = order_DBVM_UD_Classes[i].領藥號.Trim();
+                        string 開方日期 = order_DBVM_UD_Classes[i].開方日期;
+                        string hour = order_DBVM_UD_Classes[i].開方時間.Substring(0, 2);
+                        string min = order_DBVM_UD_Classes[i].開方時間.Substring(2, 2);
+                        string sec = order_DBVM_UD_Classes[i].開方時間.Substring(4, 2);
+                        string 開方時間 = $"{hour}:{min}:{sec}";
+                        orderClass.開方日期 = $"{開方日期} {開方時間}";
+                        orderClasses.Add(orderClass);
+                    }
                 }
                 for (int i = 0; i < order_DBVM_Classes.Count; i++)
                 {

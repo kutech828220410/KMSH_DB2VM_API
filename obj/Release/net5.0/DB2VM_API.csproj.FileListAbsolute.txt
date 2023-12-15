@@ -852,3 +852,7 @@ C:\Users\WPC\Desktop\KMSH_DBVM_API\obj\Release\net5.0\DB2VM_API.dll
 C:\Users\WPC\Desktop\KMSH_DBVM_API\obj\Release\net5.0\ref\DB2VM_API.dll
 C:\Users\WPC\Desktop\KMSH_DBVM_API\obj\Release\net5.0\DB2VM_API.pdb
 C:\Users\WPC\Desktop\KMSH_DBVM_API\obj\Release\net5.0\DB2VM_API.genruntimeconfig.cache
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Release\net5.0\System.Management.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Release\net5.0\Interop.SpeechLib.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Release\net5.0\MeasureSystemFunction.dll
+C:\Users\WPC\Desktop\KMSH_DBVM_API\bin\Release\net5.0\HIS_DB_Lib.xml
