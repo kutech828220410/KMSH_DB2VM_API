@@ -21,6 +21,8 @@ namespace ServiceReference
         
         private string DRG_ATC_CODEField;
         
+        private string DRG_BARCODEField;
+        
         private string DRG_BARCODE_STOCKField;
         
         private string DRG_CODEField;
@@ -47,6 +49,19 @@ namespace ServiceReference
             set
             {
                 this.DRG_ATC_CODEField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DRG_BARCODE
+        {
+            get
+            {
+                return this.DRG_BARCODEField;
+            }
+            set
+            {
+                this.DRG_BARCODEField = value;
             }
         }
         
@@ -583,6 +598,25 @@ namespace ServiceReference
             "tionServiceErrorFault", Name="ApplicationServiceError", Namespace="http://schemas.datacontract.org/2004/07/KMUH.ADCMedicineCabinet.Services.ErrorHan" +
             "dlers")]
         System.Threading.Tasks.Task<string> GET_DRG_FROZEN_STOCK_INFOAsync(string DRG_ROOM);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_Data", ReplyAction="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_DataResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ServiceReference.ApplicationServiceError), Action="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_DataApplicationServi" +
+            "ceErrorFault", Name="ApplicationServiceError", Namespace="http://schemas.datacontract.org/2004/07/KMUH.ADCMedicineCabinet.Services.ErrorHan" +
+            "dlers")]
+        System.Threading.Tasks.Task<string> AutoStorage_DataAsync(string inBarCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_Data_ByDateTimes", ReplyAction="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_Data_ByDateTimesResp" +
+            "onse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ServiceReference.ApplicationServiceError), Action="http://tempuri.org/IADCMedicineCabinetWCFService/AutoStorage_Data_ByDateTimesAppl" +
+            "icationServiceErrorFault", Name="ApplicationServiceError", Namespace="http://schemas.datacontract.org/2004/07/KMUH.ADCMedicineCabinet.Services.ErrorHan" +
+            "dlers")]
+        System.Threading.Tasks.Task<string> AutoStorage_Data_ByDateTimesAsync(string inSDateTime, string inEDateTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IADCMedicineCabinetWCFService/QueryRtxmda_Data_KMUGH", ReplyAction="http://tempuri.org/IADCMedicineCabinetWCFService/QueryRtxmda_Data_KMUGHResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ServiceReference.ApplicationServiceError), Action="http://tempuri.org/IADCMedicineCabinetWCFService/QueryRtxmda_Data_KMUGHApplicatio" +
+            "nServiceErrorFault", Name="ApplicationServiceError", Namespace="http://schemas.datacontract.org/2004/07/KMUH.ADCMedicineCabinet.Services.ErrorHan" +
+            "dlers")]
+        System.Threading.Tasks.Task<string> QueryRtxmda_Data_KMUGHAsync(string inBarCode);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
@@ -880,6 +914,21 @@ namespace ServiceReference
             return base.Channel.GET_DRG_FROZEN_STOCK_INFOAsync(DRG_ROOM);
         }
         
+        public System.Threading.Tasks.Task<string> AutoStorage_DataAsync(string inBarCode)
+        {
+            return base.Channel.AutoStorage_DataAsync(inBarCode);
+        }
+        
+        public System.Threading.Tasks.Task<string> AutoStorage_Data_ByDateTimesAsync(string inSDateTime, string inEDateTime)
+        {
+            return base.Channel.AutoStorage_Data_ByDateTimesAsync(inSDateTime, inEDateTime);
+        }
+        
+        public System.Threading.Tasks.Task<string> QueryRtxmda_Data_KMUGHAsync(string inBarCode)
+        {
+            return base.Channel.QueryRtxmda_Data_KMUGHAsync(inBarCode);
+        }
+        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
@@ -899,6 +948,7 @@ namespace ServiceReference
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
+                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
                 return result;
             }
             throw new System.InvalidOperationException(string.Format("找不到名為 \'{0}\' 的端點。", endpointConfiguration));
@@ -908,8 +958,8 @@ namespace ServiceReference
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_BigData))
             {
-                return new System.ServiceModel.EndpointAddress("http://intraap.server.kmhk.org.tw/WEB/ADCCabinetWCF/ADCMedicineCabinetWCFService." +
-                        "svc");
+                return new System.ServiceModel.EndpointAddress("https://intraap.server.kmsh.org.tw/WEB/ADCCabinetWCF/ADCMedicineCabinetWCFService" +
+                        ".svc");
             }
             throw new System.InvalidOperationException(string.Format("找不到名為 \'{0}\' 的端點。", endpointConfiguration));
         }
